@@ -1,16 +1,7 @@
-# npm
-/node_modules
+node_modules
 package-lock.json
 *.log
 *.gz
 
-# env
-.env
-
-# Coveralls
-.nyc_output
-coverage
-
 dist
-.env
 .env
