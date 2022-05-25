@@ -5,21 +5,21 @@ import jwt from 'jsonwebtoken';
 import axios from 'axios';
 import {User} from '../models/User';
 
-
 const router = express.Router();
 
 let refreshTokens = [] as any// TO REPLACE
 
-router.get('/token', (req, res) => {
-    const refreshToken = req.body.token
-    if (refreshToken==null) return res.sendStatus(401)
+router.post('/token', (req: Request, res: Response) => {
+    console.log("test", req.body)
+    const refreshToken = req.body.refresh as string;
+    if (refreshToken==null) return res.sendStatus(401) // Unauthorised
     if (refreshTokens.includes(refreshToken)) return res.sendStatus(403) // no access
     jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET as string, (err: any, user: any) => {
         if (err) return res.sendStatus(403)
+        console.log("user", user)
         const accessToken = generateAccessToken(user)
         res.json({accessToken: accessToken})
     })
-
 })
 
 // Getting Login URL
@@ -47,10 +47,15 @@ router.get("/google", async(req: Request, res: Response)=> {
             console.error(`Failed to fetch user`);
             res.json(error.message);
         });
-    const token = generateAccessToken(googleUser)
-    const refreshToken = jwt.sign(googleUser, process.env.REFRESH_TOKEN_SECRET as string)
-    refreshTokens.push(refreshToken);
-    res.json({accessToken: token, refreshToken: refreshToken})
+
+    if (googleUser.name === 'nk711') { // Later change to see if user exists in database
+        const token = generateAccessToken(googleUser)
+        const refreshToken = jwt.sign(googleUser, process.env.REFRESH_TOKEN_SECRET as string)
+        refreshTokens.push(refreshToken);
+        res.json({accessToken: token, refreshToken: refreshToken})
+    } else {
+        res.json('User not found')
+    }
 });
 
 
@@ -58,7 +63,6 @@ router.get("/google", async(req: Request, res: Response)=> {
 // Getting the current user
 // app.get("/auth/me", (req: Request, res: Response) => {
 //     const token = req.query.jwt as string;
-
 //     try {
 //         const decoded = jwt.verify(token ,process.env.ACCESS_TOKEN_SECRET as string)
 //         console.log(decoded);
