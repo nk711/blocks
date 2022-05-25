@@ -3,6 +3,16 @@ import {Request, Response, NextFunction} from 'express';
 import jwt from 'jsonwebtoken';
 import 'dotenv/config';
 
+export interface UserType {
+    id: string,
+    email: string,
+    verified_email: boolean,
+    name: string,
+    given_name: string,
+    picture: string,
+    locale: string,
+}
+
 const authenticateToken = (req: Request, res: Response, next: NextFunction ) => {
     const authHeader = req.headers['authorization']
     const token = authHeader && authHeader.split(' ')[1]
@@ -14,3 +24,8 @@ const authenticateToken = (req: Request, res: Response, next: NextFunction ) => 
         next()
     })
 };
+
+
+export const generateAccessToken = (user: UserType): string => {
+    return  jwt.sign(user, process.env.ACCESS_TOKEN_SECRET as string, { expiresIn: '30m'})
+}
