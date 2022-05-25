@@ -13,19 +13,18 @@ export interface UserType {
     locale: string,
 }
 
-const authenticateToken = (req: Request, res: Response, next: NextFunction ) => {
+export const authenticateToken = (req: Request, res: Response, next: NextFunction ) => {
     const authHeader = req.headers['authorization']
     const token = authHeader && authHeader.split(' ')[1]
     if ( token == null ) return res.sendStatus(401)
-
     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET as string, (err, user) => {
         if (err) return res.sendStatus(403)
-        req.user = user
+        req.user = user as UserType
         next()
     })
 };
 
 
 export const generateAccessToken = (user: UserType): string => {
-    return  jwt.sign(user, process.env.ACCESS_TOKEN_SECRET as string, { expiresIn: '30m'})
+    return  jwt.sign(user, process.env.ACCESS_TOKEN_SECRET as string, { expiresIn: '30s'})
 }
