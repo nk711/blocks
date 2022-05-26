@@ -9,6 +9,10 @@ const router = express.Router();
 
 let refreshTokens = [] as any// TO REPLACE
 
+router.delete('/logout', (req:Request, res:Response) => {
+    refreshTokens = refreshTokens.filter(token => token !== req.body.token )
+    res.sendStatus(204)
+})
 router.post('/token', (req: Request, res: Response) => {
     console.log("test", req.body)
     const refreshToken = req.body.refresh as string;
