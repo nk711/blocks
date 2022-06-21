@@ -1,7 +1,5 @@
 import express, {Response, Request} from "express";
 import { authenticateToken, UserType } from "../utils/auth"
-import jwt from 'jsonwebtoken';
-import axios from 'axios';
 
 const router = express.Router();
 

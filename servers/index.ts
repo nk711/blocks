@@ -3,11 +3,6 @@ import auth from '../routes/auth';
 import cors from 'cors';
 import 'dotenv/config';
 import photos from '../routes/photos';
-
-// import mongoose from 'mongoose';
-
-// mongoose.connect('mongodb://localhost/blocks')
-
 const app: Express = express();
 const port = process.env.PORT;
 

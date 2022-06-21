@@ -2,11 +2,11 @@
   "name": "blocks",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "servers/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node dist/servers/server.js",
-    "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/servers/server.js\""
+    "start": "node dist/servers/index.js",
+    "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/servers/index.js\""
   },
   "keywords": [],
   "author": "",
@@ -20,7 +20,6 @@
     "express": "^4.18.1",
     "express-session": "^1.17.3",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^6.3.4",
     "passport-google-oauth2": "^0.2.0",
     "query-string": "^7.1.1"
   },

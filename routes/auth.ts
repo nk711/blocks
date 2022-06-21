@@ -3,11 +3,10 @@ import { generateAccessToken, UserType } from "../utils/auth";
 import { getGoogleAuthURL, getTokens } from "../utils/google";
 import jwt from 'jsonwebtoken';
 import axios from 'axios';
-import {User} from '../models/User';
 
 const router = express.Router();
 
-let refreshTokens = [] as any// TO REPLACE
+let refreshTokens = [] as string[]// TO REPLACE
 
 router.delete('/logout', (req:Request, res:Response) => {
     refreshTokens = refreshTokens.filter(token => token !== req.body.token )
